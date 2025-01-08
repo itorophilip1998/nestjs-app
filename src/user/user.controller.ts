@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -26,18 +25,18 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get('findOneUser')
-  findOne(@Payload() id: number) {
+  @Get('findOneUser/:id')
+  findOne(@Param('id') id: number) {
     return this.userService.findOne(id);
   }
 
-  @Patch('updateUser')
-  update(@Payload() updateUserDto: UpdateUserDto) {
-    return this.userService.update(updateUserDto.id, updateUserDto);
+  @Patch('updateUser/:id')
+  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto);
   }
 
-  @Delete('removeUser')
-  remove(@Payload() id: number) {
+  @Delete('removeUser/:id')
+  remove(@Param('id') id: number) {
     return this.userService.remove(id);
   }
 }
